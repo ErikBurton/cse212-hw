@@ -35,8 +35,26 @@ public static class Arrays
     public static void RotateListRight(List<int> data, int amount)
     {
         // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Plan:
+        // 1. Determine the actual rotation by taking amount modulo data.Count (to handle full rotations.)
+        // 2. If the effective rotation is 0, do nothing and return.
+        // 3. Otherwise:
+        //    a. Extract the last 'rotate' elements using GetRange(startIndex, rotate).
+        //    b. Remove those elements from the end of the list usning RemoveRange.
+        //    c. Insert the extracted elements at the begining of the list using InsertRange.
+
+        int count = data.Count;
+        int rotate = amount % count;
+        if (rotate == 0)
+        {
+            return;
+        }
+
+        // Extract the tail segment.
+        List<int> tail = data.GetRange(count - rotate, rotate);
+        // Remove the tail from the original list.
+        data.RemoveRange(count - rotate, rotate);
+        // Insert the tail at the front
+        data.InsertRange(0, tail);
     }
 }
