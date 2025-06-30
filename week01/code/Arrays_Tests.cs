@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 [TestClass]
 public class MultiplesOfTests
+
 {
     [TestMethod]
     public void TestMultiplesOf_Whole()
