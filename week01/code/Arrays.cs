@@ -25,7 +25,7 @@ public static class Arrays
             //    number * (i + 1)
             // if i = 0 then number * 1
             // if i = 1 then number * 2
-            // and so on, up to i = length - 1 then number * lenght.
+            // and so on, up to i = length - 1 then number * length.
             result[i] = number * (i + 1);
         }
 
