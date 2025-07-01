@@ -16,12 +16,20 @@ public static class Arrays
         //    b. Store it in result [i].
         // 3. Return the result array.
 
+        // Allocate new array to hold the results.
+        // Its size is 'length', so it can store exactly 'length' multiples.
         double[] result = new double[length];
         for (int i = 0; i < length; i++)
         {
+            // Computes the (i + 1) multiple of 'number' by multiplying:
+            //    number * (i + 1)
+            // if i = 0 then number * 1
+            // if i = 1 then number * 2
+            // and so on, up to i = length - 1 then number * lenght.
             result[i] = number * (i + 1);
         }
 
+        // Once all multiples are computed and storesd, return the filled array.
         return result; // replace this return statement with your own
     }
 
