@@ -34,11 +34,14 @@ public class CustomerService {
     private readonly List<Customer> _queue = new();
     private readonly int _maxSize;
 
-    public CustomerService(int maxSize) {
-        if (maxSize <= 0)
-            _maxSize = 10;
-        else
-            _maxSize = maxSize;
+    public CustomerService(int maxSize)
+    {
+        // Bug #1: invalid sizes ( <= 0) must default to 10.
+        // if (maxSize <= 0)
+        //     _maxSize = 10;
+        // else
+        //     _maxSize = maxSize;
+        _maxSize = maxSize > 0 ? maxSize : 10;
     }
 
     /// <summary>
@@ -67,7 +70,9 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        // Bug #2 - should prevent when Count >= maxSize (not >)
+        if (_queue.Count >= _maxSize)
+        {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
@@ -87,10 +92,18 @@ public class CustomerService {
     /// <summary>
     /// Dequeue the next customer and display the information.
     /// </summary>
-    private void ServeCustomer() {
+    
+    // Logic to guard against empty queue and corretly write out the first customer before removing them.
+    private void ServeCustomer()
+    {
+        if (_queue.Count == 0)
+        {
+            Console.WriteLine("No customers to serve.");
+        }
+
+        // first display, then remove
+        Console.WriteLine(_queue[0]);
         _queue.RemoveAt(0);
-        var customer = _queue[0];
-        Console.WriteLine(customer);
     }
 
     /// <summary>
