@@ -24,7 +24,13 @@ public class Translator
     /// <returns>fixed array of divisors</returns>
     public void AddWord(string fromWord, string toWord)
     {
-        // ADD YOUR CODE HERE
+        if (string.IsNullOrWhiteSpace(fromWord))
+            throw new ArgumentNullException("fromWord cannot be null or empty.", nameof(fromWord));
+        if (string.IsNullOrWhiteSpace(toWord))
+            throw new ArgumentNullException("toWord cannot be null or empty", nameof(toWord));
+
+        // If the word already exists, overwrite the old translation.
+        _words[fromWord] = toWord;
     }
 
     /// <summary>
@@ -34,7 +40,11 @@ public class Translator
     /// <returns>The translated word or "???" if no translation is available</returns>
     public string Translate(string fromWord)
     {
-        // ADD YOUR CODE HERE
-        return "";
+        if (string.IsNullOrEmpty(fromWord))
+            return "???";
+
+        return _words.TryGetValue(fromWord, out var translation)
+            ? translation
+            : "???";
     }
 }
