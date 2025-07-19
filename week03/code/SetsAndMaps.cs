@@ -20,10 +20,33 @@ public static class SetsAndMaps
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
+{
+    var wordSet = new HashSet<string>(words);
+    var seen    = new HashSet<string>();
+    var result  = new List<string>();
+
+    foreach (var w in words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        // skip anything not exactly 2 chars, or both letters the same
+        if (w.Length != 2 || w[0] == w[1]) 
+            continue;
+
+        // build the reversed string
+        var rev = new string(new[] { w[1], w[0] });
+
+        // if its reverse is in the set, and we haven’t already added this pair
+        if (wordSet.Contains(rev) && !seen.Contains(w) && !seen.Contains(rev))
+        {
+            // use rev & w so “ma & am” appears for w=="am"
+            result.Add($"{rev} & {w}");
+            seen.Add(w);
+            seen.Add(rev);
+        }
     }
+
+    return result.ToArray();
+}
+
 
     /// <summary>
     /// Read a census file and summarize the degrees (education)
@@ -43,8 +66,17 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
-        }
+            if (fields.Length < 4)
+                continue;
 
+            // column 4 is index 3
+            var degree = fields[3].Trim();
+
+            if (degrees.ContainsKey(degree))
+                degrees[degree]++;
+            else
+                degrees[degree] = 1;
+        }
         return degrees;
     }
 
@@ -67,7 +99,34 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
+        // Normalize: drop spaces, to lower
+    var s1 = new string(word1.ToLower().Where(c => !char.IsWhiteSpace(c)).ToArray());
+    var s2 = new string(word2.ToLower().Where(c => !char.IsWhiteSpace(c)).ToArray());
+
+    // Quick length check
+    if (s1.Length != s2.Length)
         return false;
+
+    // Count letters in s1
+    var counts = new Dictionary<char, int>();
+    foreach (var c in s1)
+    {
+        if (counts.ContainsKey(c)) 
+            counts[c]++; 
+        else 
+            counts[c] = 1;
+    }
+
+    // Subtract counts using s2; if missing or goes negative, not an anagram
+    foreach (var c in s2)
+    {
+        if (!counts.ContainsKey(c) || counts[c] == 0)
+            return false;
+        counts[c]--;
+    }
+
+    // All counts should be zero
+    return counts.Values.All(v => v == 0);
     }
 
     /// <summary>
