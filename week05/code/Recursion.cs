@@ -41,7 +41,25 @@ public static class Recursion
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
         // TODO Start Problem 2
+    
+        // If desired size has been reached, add the word to results
+        if (word.Length == size)
+        {
+            results.Add(word);
+            return;
+        }
+
+        // Try each letter that hasn’t been used yet in the current word
+        foreach (char c in letters)
+        {
+            if (!word.Contains(c))
+            {
+                PermutationsChoose(results, letters, size, word + c);
+            }
+        }
     }
+
+    
 
     /// <summary>
     /// #############
