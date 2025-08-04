@@ -37,16 +37,19 @@ public class Node
     {
         // TODO Start Problem 2
         if (value == Data)
+            return true;
+        
+        if (value < Data)
             return Left != null && Left.Contains(value); // Search left subtree
-        else
-            return Right != null && Right.Contains(value); // Search right subtree
+
+        return Right != null && Right.Contains(value); // Search right subtree
     }
 
     public int GetHeight()
     {
         // TODO Start Problem 4
-        int leftHeight = Left?.GetHeight() ?? 0;
-        int rightHeight = Right?.GetHeight() ?? 0;
-        return 1 + Math.Max(leftHeight, rightHeight); // Replace this line with the correct return statement(s)
+        int leftHeight = Left?.GetHeight() ?? 0; // Recursively get height of the left subtree, or 0 if no left child.
+        int rightHeight = Right?.GetHeight() ?? 0; // Recursively get height of the right subtree, or 0 if no right child.
+        return 1 + Math.Max(leftHeight, rightHeight); // The height of this node is 1 (for this node) plus the taller of the two subtress.
     }
 }
